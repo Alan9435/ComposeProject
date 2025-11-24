@@ -32,9 +32,9 @@ fun TopBar(
     title: String = "標題",
     backgroundColor: Color = Color.White,
     @DrawableRes leftIcon: Int = R.drawable.ic_baseline_arrow_back_ios_new_24,
-    onLeftClick: (() -> Unit)? = {},
+    onLeftClick: (() -> Unit)? = null,
     @DrawableRes rightIcon: Int = R.drawable.ic_baseline_cloud_24,
-    onRightClick: (() -> Unit)? = {},
+    onRightClick: (() -> Unit)? = null,
 ) {
     val buttonInteractionSource = remember { MutableInteractionSource() }
 

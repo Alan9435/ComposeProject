@@ -8,10 +8,19 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.composeproject.R
 import com.example.composeproject.data.Chat
+import com.example.composeproject.data.HomeScreenState
 import com.example.composeproject.data.Msg
+import com.example.composeproject.data.ScreenFlag
 import com.example.composeproject.data.User
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class MainActivityViewModel : ViewModel() {
+    private val _homeScreenState = MutableStateFlow(HomeScreenState())
+    val homeScreenState = _homeScreenState.asStateFlow()
+
     // 選了哪個tab item
     var selectedTab by mutableIntStateOf(0)
 
@@ -26,6 +35,7 @@ class MainActivityViewModel : ViewModel() {
 
     // 正在聊天 為了滑入動畫而增加的狀態 如果用currentChat當基準判斷 相當於一個白畫面滑出(不合理)
     var chatting by mutableStateOf(false)
+
 
     val friendOne = User(
         id = "9527",
@@ -70,6 +80,17 @@ class MainActivityViewModel : ViewModel() {
         )
     )
 
+    val listData = mutableStateListOf<MyTestData>()
+    var isListReLoading by mutableStateOf(false)
+    // Loading Mask遮罩
+    var isListLoading by mutableStateOf(false)
+    // 控制項目動畫的狀態
+    var loadingFinish by mutableStateOf(false)
+
+    init {
+        getListData()
+    }
+
     fun startChat(chat: Chat) {
         chatting = true
         currentChat = chat
@@ -87,4 +108,82 @@ class MainActivityViewModel : ViewModel() {
     fun surprise(chat: Chat?) {
         chat?.msgs?.add(Msg(User.Me, "\u0830\uDCA3", "15:10"))
     }
+
+    fun fetchData() {
+        isListLoading = true
+        loadingFinish = false
+
+        val list = mutableStateListOf<MyTestData>()
+
+        android.os.Handler().postDelayed(object : Runnable {
+            override fun run() {
+                removeListData()
+                for(i in 0..50) {
+                    list.add(MyTestData("$i","$i"))
+                }
+                listData.addAll(list)
+                isListLoading = false
+                loadingFinish = true
+            }
+        }, 2000)
+    }
+
+    fun fetchDataByReload() {
+        isListReLoading = true
+        loadingFinish = false
+        val list = mutableStateListOf<MyTestData>()
+
+        android.os.Handler().postDelayed(object : Runnable {
+            override fun run() {
+                removeListData()
+
+                for(i in 0..50) {
+                    list.add(MyTestData("$i","$i"))
+                }
+                isListReLoading = false
+                loadingFinish = true
+                listData.addAll(list)
+            }
+
+        }, 2000)
+    }
+
+    private fun removeListData() {
+        listData.clear()
+    }
+
+    fun setScreenFlag(screenFlag: ScreenFlag) {
+        _homeScreenState.update {
+            it.copy(
+                currentScreenFlag = screenFlag
+            )
+        }
+    }
+
+    private fun setListData(list: List<ScreenFlag>) {
+        _homeScreenState.update {
+            it.copy(
+                homeListData = list
+            )
+        }
+    }
+
+    /**
+     * 列表想出現的項目
+     * */
+    private fun getListData() {
+        setListData(listOf(
+            ScreenFlag.LazyGridExampleScreen,
+//            ScreenFlag.AnimationLazyColumnItemExampleScreen, //todo 施工中 第一次沒有觸發動畫效果 以及如果api rs比animation設定的秒數還快回來?
+            ScreenFlag.ContextualFlowRowExampleScreen,
+            ScreenFlag.MultipleAnimationExampleScreen,
+            ScreenFlag.BottomSheetExampleScreen,
+            ScreenFlag.ModalBottomSheetExampleScreen
+        ))
+    }
 }
+
+data class MyTestData(
+    val title: String = "",
+    val subTitle: String = ""
+)
