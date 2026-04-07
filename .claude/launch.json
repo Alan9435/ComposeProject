@@ -1,0 +1,35 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Build Debug APK",
+      "runtimeExecutable": "./gradlew",
+      "runtimeArgs": ["assembleDebug"],
+      "port": -1
+    },
+    {
+      "name": "Install Debug on Device",
+      "runtimeExecutable": "./gradlew",
+      "runtimeArgs": ["installDebug"],
+      "port": -1
+    },
+    {
+      "name": "Run Unit Tests",
+      "runtimeExecutable": "./gradlew",
+      "runtimeArgs": ["test"],
+      "port": -1
+    },
+    {
+      "name": "Run Instrumented Tests",
+      "runtimeExecutable": "./gradlew",
+      "runtimeArgs": ["connectedAndroidTest"],
+      "port": -1
+    },
+    {
+      "name": "Clean Build",
+      "runtimeExecutable": "./gradlew",
+      "runtimeArgs": ["clean", "assembleDebug"],
+      "port": -1
+    }
+  ]
+}
