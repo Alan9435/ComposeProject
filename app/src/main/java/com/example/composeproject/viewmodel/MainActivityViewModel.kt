@@ -12,7 +12,7 @@ import com.example.composeproject.data.HomeScreenState
 import com.example.composeproject.data.Msg
 import com.example.composeproject.data.ScreenFlag
 import com.example.composeproject.data.User
-import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -110,42 +110,37 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun fetchData() {
-        isListLoading = true
-        loadingFinish = false
+        viewModelScope.launch {
+            isListLoading = true
+            loadingFinish = false
 
-        val list = mutableStateListOf<MyTestData>()
+            delay(2000)
 
-        android.os.Handler().postDelayed(object : Runnable {
-            override fun run() {
-                removeListData()
-                for(i in 0..50) {
-                    list.add(MyTestData("$i","$i"))
-                }
-                listData.addAll(list)
-                isListLoading = false
-                loadingFinish = true
-            }
-        }, 2000)
+            removeListData()
+            listData.addAll((0..50).map { MyTestData("$it", "$it") })
+            isListLoading = false
+
+            // 等下一個 frame，讓 item 先以 visible=false 組合完畢，再觸發入場動畫
+            delay(1)
+            loadingFinish = true
+        }
     }
 
     fun fetchDataByReload() {
-        isListReLoading = true
-        loadingFinish = false
-        val list = mutableStateListOf<MyTestData>()
+        viewModelScope.launch {
+            isListReLoading = true
+            loadingFinish = false
 
-        android.os.Handler().postDelayed(object : Runnable {
-            override fun run() {
-                removeListData()
+            delay(2000)
 
-                for(i in 0..50) {
-                    list.add(MyTestData("$i","$i"))
-                }
-                isListReLoading = false
-                loadingFinish = true
-                listData.addAll(list)
-            }
+            removeListData()
+            listData.addAll((0..50).map { MyTestData("$it", "$it") })
+            isListReLoading = false
 
-        }, 2000)
+            // 等下一個 frame，讓 item 先以 visible=false 組合完畢，再觸發入場動畫
+            delay(1)
+            loadingFinish = true
+        }
     }
 
     private fun removeListData() {
