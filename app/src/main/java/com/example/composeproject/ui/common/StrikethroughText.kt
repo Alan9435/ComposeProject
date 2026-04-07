@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.example.composeproject.Utils.mdp
+import com.example.composeproject.utils.mdp
 
 // todo 實驗+入動畫參數是不是能產生出慢慢畫刪除線的效果 記得考慮多行時的情境
 @Composable

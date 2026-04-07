@@ -38,8 +38,8 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.em
 import com.example.composeproject.R
-import com.example.composeproject.Utils.mdp
-import com.example.composeproject.Utils.msp
+import com.example.composeproject.utils.mdp
+import com.example.composeproject.utils.msp
 import com.example.composeproject.ui.theme.LocalCustomColors
 import kotlin.math.roundToInt
 

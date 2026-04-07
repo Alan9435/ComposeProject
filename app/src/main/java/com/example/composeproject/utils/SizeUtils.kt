@@ -1,4 +1,4 @@
-package com.example.composeproject.Utils
+package com.example.composeproject.utils
 
 import android.content.Context
 import androidx.annotation.DimenRes

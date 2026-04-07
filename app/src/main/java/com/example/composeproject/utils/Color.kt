@@ -1,4 +1,4 @@
-package com.example.composeproject.Utils
+package com.example.composeproject.utils
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -28,7 +28,7 @@ import com.example.composeproject.ui.theme.LocalCustomColors
  * @param durationMillis 動畫時長
  * @param shimmerWidth 光影長度
  * @param tiltFactor 光影傾斜係數
- * @sample com.example.composeproject.Utils.RememberShimmerBrushSample
+ * @sample com.example.composeproject.utils.RememberShimmerBrushSample
  */
 @Composable
 fun rememberShimmerBrush(

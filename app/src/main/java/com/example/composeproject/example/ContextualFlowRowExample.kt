@@ -1,5 +1,6 @@
 package com.example.composeproject.example
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ContextualFlowRow
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,13 +16,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.composeproject.Utils.mdp
+import com.example.composeproject.utils.mdp
 import com.example.composeproject.ui.modifier.delayClick
 import com.example.composeproject.ui.theme.LocalCustomColors
 
@@ -38,21 +38,11 @@ import com.example.composeproject.ui.theme.LocalCustomColors
 fun ContextualFlowRowExampleScreen(modifier: Modifier = Modifier) {
     val totalCount = 400
     var maxLines by remember {
-        mutableStateOf(2)
+        mutableIntStateOf(2)
     }
 
     val moreOrCollapseIndicator = @Composable { scope: ContextualFlowRowOverflowScope ->
         val remainingItems = totalCount - scope.shownItemCount
-//        Text(
-//            modifier = Modifier.delayClick {
-//                if (remainingItems == 0) {
-//                    maxLines = 2
-//                } else {
-//                    maxLines += 5
-//                }
-//            },
-//            text = if (remainingItems == 0) "Less" else "+$remainingItems",
-//        )
 
         Text(
             modifier = Modifier
@@ -77,8 +67,10 @@ fun ContextualFlowRowExampleScreen(modifier: Modifier = Modifier) {
     LabelContainer(
         modifier = modifier
             .fillMaxWidth(1f)
-            .padding(16.dp)
-            .wrapContentHeight(align = Alignment.Top),
+            .padding(horizontal = 13.mdp)
+            .wrapContentHeight(align = Alignment.Top)
+            .verticalScroll(rememberScrollState())
+            .animateContentSize(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         maxLines = maxLines,
@@ -115,8 +107,7 @@ fun LabelContainer(
     labelWeight: @Composable (index: Int) -> Unit
 ) {
     ContextualFlowRow(
-        modifier = modifier
-            .verticalScroll(rememberScrollState()),
+        modifier = modifier,
         verticalArrangement = verticalArrangement,
         horizontalArrangement = horizontalArrangement,
         maxLines = maxLines,

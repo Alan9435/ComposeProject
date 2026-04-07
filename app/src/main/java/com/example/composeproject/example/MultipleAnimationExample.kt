@@ -23,8 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.example.composeproject.Utils.mdp
-import com.example.composeproject.Utils.msp
+import com.example.composeproject.utils.mdp
+import com.example.composeproject.utils.msp
 import com.example.composeproject.ui.modifier.notRippleClickable
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt

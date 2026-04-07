@@ -33,7 +33,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.composeproject.R
-import com.example.composeproject.Utils.mdp
+import com.example.composeproject.utils.mdp
 import com.example.composeproject.viewmodel.MainActivityViewModel
 import kotlin.math.roundToInt
 

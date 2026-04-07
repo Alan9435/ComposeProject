@@ -36,14 +36,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.composeproject.Utils.mdp
-import com.example.composeproject.Utils.msp
+import com.example.composeproject.utils.mdp
+import com.example.composeproject.utils.msp
 import com.example.composeproject.data.HomeScreenState
 import com.example.composeproject.data.ScreenFlag
 import com.example.composeproject.example.AnimationLazyColumnItemExampleScreen
 import com.example.composeproject.example.CommonLazyVerticalStaggeredGrid
 import com.example.composeproject.example.ContextualFlowRowExampleScreen
 import com.example.composeproject.example.CustomBottomSheetExampleScreen
+import com.example.composeproject.example.HorizontalPagerScaleExampleScreen
+import com.example.composeproject.example.LineChartExampleScreen
 import com.example.composeproject.example.ModalBottomSheetExampleScreen
 import com.example.composeproject.example.MultipleAnimationExampleScreen
 import com.example.composeproject.ui.common.LoadingMask
@@ -96,7 +98,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     )
-                    
+
                     AnimatedContent(
                         modifier = Modifier.fillMaxSize(),
                         targetState = homeScreenState.currentScreenFlag,
@@ -159,6 +161,18 @@ class MainActivity : ComponentActivity() {
 
                             is ScreenFlag.ModalBottomSheetExampleScreen -> {
                                 ModalBottomSheetExampleScreen()
+                            }
+
+                            is ScreenFlag.HorizontalPagerExampleScreen -> {
+                                HorizontalPagerScaleExampleScreen(
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+
+                            is ScreenFlag.LineChartExampleScreen -> {
+                                LineChartExampleScreen(
+                                    modifier = Modifier.fillMaxSize()
+                                )
                             }
                         }
                     }

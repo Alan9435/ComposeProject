@@ -10,5 +10,12 @@
     <string name="home_screen_list_multiple_animation_title">適合連點類的動畫效果</string>
     <string name="home_screen_list_persistent_bottom_sheet_title">Persistent BottomSheet測試</string>
     <string name="home_screen_list_modal_bottom_sheet_title">Modal BottomSheet測試</string>
+    <string name="home_screen_list_horizontal_pager_scale_title">HorizontalPager</string>
+    <string name="home_screen_list_line_chart">折線圖表格</string>
 
+    <string name="horizontal_pager_scale_item_add_alert">測試項目1</string>
+    <string name="horizontal_pager_scale_item_airline_seat_flat">測試項目2</string>
+    <string name="horizontal_pager_scale_item_android">測試項目3</string>
+    <string name="horizontal_pager_scale_item_blind">測試項目4</string>
+    <string name="horizontal_pager_scale_item_cloud">測試項目5</string>
 </resources>

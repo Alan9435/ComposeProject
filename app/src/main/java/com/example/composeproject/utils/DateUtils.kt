@@ -1,4 +1,4 @@
-package com.example.composeproject.Utils
+package com.example.composeproject.utils
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SelectableDates

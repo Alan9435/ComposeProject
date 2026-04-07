@@ -178,7 +178,9 @@ class MainActivityViewModel : ViewModel() {
             ScreenFlag.ContextualFlowRowExampleScreen,
             ScreenFlag.MultipleAnimationExampleScreen,
             ScreenFlag.BottomSheetExampleScreen,
-            ScreenFlag.ModalBottomSheetExampleScreen
+            ScreenFlag.ModalBottomSheetExampleScreen,
+            ScreenFlag.HorizontalPagerExampleScreen,
+            ScreenFlag.LineChartExampleScreen
         ))
     }
 }

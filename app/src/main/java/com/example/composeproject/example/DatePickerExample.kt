@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.composeproject.Utils.getDpBySdp
+import com.example.composeproject.utils.getDpBySdp
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable

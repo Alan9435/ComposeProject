@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.example.composeproject.R
-import com.example.composeproject.Utils.mdp
+import com.example.composeproject.utils.mdp
 import com.example.composeproject.ui.theme.LocalCustomColors
 
 enum class PointerPosition {
@@ -33,6 +33,10 @@ enum class PointerPosition {
  * @param cornerRadius 提示框圓角
  * @param distanceFromStart 箭頭距離起始點偏移dp 由上/左開始算起
  * @param pointerPosition 箭頭出現的位置
+ * */
+/**
+ * @param triangleBottomWidth 底度的寬度
+ * @param triangleHeight 長的高度
  * */
 @Composable
 fun PointedBackground(
@@ -62,7 +66,10 @@ fun PointedBackground(
                 val path = Path().apply {
                     when (pointerPosition) {
                         PointerPosition.LEFT -> {
-                            moveTo(distancePadding, customDistanceHeight - triangleBottomWidthPx / 2f)
+                            moveTo(
+                                distancePadding,
+                                customDistanceHeight - triangleBottomWidthPx / 2f
+                            )
                             if (radiusTriangle) {
                                 arcTo(
                                     rect = Rect(
@@ -79,12 +86,18 @@ fun PointedBackground(
                                 lineTo(-triangleHeightPx, customDistanceHeight)
                             }
 
-                            lineTo(distancePadding, customDistanceHeight + triangleBottomWidthPx / 2f)
+                            lineTo(
+                                distancePadding,
+                                customDistanceHeight + triangleBottomWidthPx / 2f
+                            )
                             close()
                         }
 
                         PointerPosition.RIGHT -> {
-                            moveTo(width - distancePadding, customDistanceHeight - triangleBottomWidthPx / 2f)
+                            moveTo(
+                                width - distancePadding,
+                                customDistanceHeight - triangleBottomWidthPx / 2f
+                            )
                             if (radiusTriangle) {
                                 arcTo(
                                     rect = Rect(
@@ -100,12 +113,18 @@ fun PointedBackground(
                             } else {
                                 lineTo(width + triangleHeightPx, customDistanceHeight)
                             }
-                            lineTo(width - distancePadding, customDistanceHeight + triangleBottomWidthPx / 2f)
+                            lineTo(
+                                width - distancePadding,
+                                customDistanceHeight + triangleBottomWidthPx / 2f
+                            )
                             close()
                         }
 
                         PointerPosition.TOP -> {
-                            moveTo(customDistanceWidth - triangleBottomWidthPx / 2f, distancePadding)
+                            moveTo(
+                                customDistanceWidth - triangleBottomWidthPx / 2f,
+                                distancePadding
+                            )
                             if (radiusTriangle) {
                                 arcTo(
                                     rect = Rect(
@@ -121,13 +140,19 @@ fun PointedBackground(
                             } else {
                                 lineTo(customDistanceWidth, -triangleHeightPx)
                             }
-                            lineTo(customDistanceWidth + triangleBottomWidthPx / 2f, distancePadding)
+                            lineTo(
+                                customDistanceWidth + triangleBottomWidthPx / 2f,
+                                distancePadding
+                            )
                             close()
                         }
 
                         // width / 2f - triangleBottomWidthPx / 2f
                         PointerPosition.BOTTOM -> {
-                            moveTo(customDistanceWidth - triangleBottomWidthPx / 2f, height - distancePadding)
+                            moveTo(
+                                customDistanceWidth - triangleBottomWidthPx / 2f,
+                                height - distancePadding
+                            )
                             if (radiusTriangle) {
                                 arcTo(
                                     rect = Rect(
@@ -144,7 +169,10 @@ fun PointedBackground(
                                 lineTo(customDistanceWidth, height + triangleHeightPx)
                             }
 
-                            lineTo(customDistanceWidth + triangleBottomWidthPx / 2f, height - distancePadding)
+                            lineTo(
+                                customDistanceWidth + triangleBottomWidthPx / 2f,
+                                height - distancePadding
+                            )
                             close()
                         }
                     }

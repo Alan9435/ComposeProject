@@ -66,7 +66,9 @@ data class Colors(
     val maskColor: Color = Color(0x66666666),
     val deepMaskColor: Color = Color(0xEE888888),
     val aiStartBlue: Color = Color(0xFF00F6FF),
-    val aiEndBlue: Color = Color(0xFF3978FF)
+    val aiEndBlue: Color = Color(0xFF3978FF),
+    val percent10Black: Color = Color(0x1A000000),
+    val green: Color = Color(0xFFA3B18A)
 )
 
 val LocalCustomColors = staticCompositionLocalOf {
