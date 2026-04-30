@@ -9,7 +9,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.anchoredDraggableFlingBehavior
 import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,6 +72,7 @@ enum class DragAnchors {
  * @param endAnchor 右邊區塊的可滑動距離（單位：px），同時決定該區塊的寬度
  * @param startContent 左側滑出區塊的自訂 UI，寬度由 startAnchor 決定，offset 動畫由元件內部處理；傳 null 則不顯示左側區塊
  * @param endContent 右側滑出區塊的自訂 UI，寬度由 endAnchor 決定，offset 動畫由元件內部處理；傳 null 則不顯示右側區塊
+ * @param flingBehavior 手指放開後的飛行行為（位移衰減、snap 動畫曲線），由呼叫方以 anchoredDraggableFlingBehavior 建立後傳入；傳 null 則使用 Compose 預設行為
  * @param contentItemWeight 列表組件
  * @param onStateChange 當item被滑動時的callback 回傳key(weight唯一值), DragAnchors狀態
  * */
@@ -84,6 +87,7 @@ fun SwipeItem(
     endAnchor: Float = 0f,
     startContent: (@Composable BoxScope.() -> Unit)? = null,
     endContent: (@Composable BoxScope.() -> Unit)? = null,
+    flingBehavior: FlingBehavior? = null,
     contentItemWeight: @Composable BoxScope.() -> Unit,
     onStateChange: (key: Int, itemState: DragAnchors) -> Unit = { _, _ -> }
 ) {
@@ -169,7 +173,8 @@ fun SwipeItem(
                     orientation = Orientation.Horizontal, // 拖曳內容的方向
                     enabled = swipeEnabled, // 啟用/停用手勢
                     reverseDirection = true, // 反轉拖曳方向
-                    interactionSource = null // 互動
+                    interactionSource = null, // 互動
+                    flingBehavior = flingBehavior // 飛行行為（位移衰減 + snap 動畫）
                 ),
         ) {
             contentItemWeight()
@@ -177,6 +182,7 @@ fun SwipeItem(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SwipeExampleScreen(modifier: Modifier = Modifier) {
     val itemStates = remember { mutableStateMapOf<Int, AnchoredDraggableState<DragAnchors>>() }
@@ -213,15 +219,16 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
                         DragAnchors.Start at -startAnchor
                         DragAnchors.Center at 0f
                         DragAnchors.End at endAnchor
-                    },
-                    // 滑動到一半時作為臨界點 決定DragAnchors的狀態
-                    positionalThreshold = { totalDistance: Float -> totalDistance * 0.5f },
-                    // 滑動的速度為多少可以切換DragAnchors的狀態 而不需要滑動到臨界點
-                    velocityThreshold = { velocityThreshold },
-                    snapAnimationSpec = spring(),
-                    decayAnimationSpec = decayAnimationSpec,
+                    }
                 )
             }
+            // 飛行行為：手指放開後的位移衰減與 snap 動畫，與狀態分離以符合新 API 設計
+            val flingBehavior = state.anchoredDraggableFlingBehavior(
+                positionalThreshold = { totalDistance -> totalDistance * 0.5f },
+                velocityThreshold = { velocityThreshold },
+                snapAnimationSpec = spring(),
+                decayAnimationSpec = decayAnimationSpec
+            )
 
             Column {
                 SwipeItem(
@@ -229,6 +236,7 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
                     key = index,
                     startAnchor = startAnchor,
                     endAnchor = endAnchor,
+                    flingBehavior = flingBehavior,
                     startContent = {
                         Column(
                             modifier = Modifier
