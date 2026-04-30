@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +29,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,6 +47,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.composeproject.R
 import com.example.composeproject.ui.modifier.delayClick
+import com.example.composeproject.ui.theme.LocalCustomColors
+import com.example.composeproject.utils.mdp
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -61,8 +66,10 @@ enum class DragAnchors {
  * @param key 用來記錄item的唯一值 便於onStateChange時判斷更新 (相當於給這個weight命名)
  * @param withItemMode 後層按鈕是否隨著item滑動而跟著位移出現
  * @param swipeEnabled 是否允許左右滑動
- * @param startAnchor 左邊區塊的可滑動距離
- * @param endAnchor 右邊區塊的可滑動距離
+ * @param startAnchor 左邊區塊的可滑動距離（單位：px），同時決定該區塊的寬度
+ * @param endAnchor 右邊區塊的可滑動距離（單位：px），同時決定該區塊的寬度
+ * @param startContent 左側滑出區塊的自訂 UI，寬度由 startAnchor 決定，offset 動畫由元件內部處理；傳 null 則不顯示左側區塊
+ * @param endContent 右側滑出區塊的自訂 UI，寬度由 endAnchor 決定，offset 動畫由元件內部處理；傳 null 則不顯示右側區塊
  * @param contentItemWeight 列表組件
  * @param onStateChange 當item被滑動時的callback 回傳key(weight唯一值), DragAnchors狀態
  * */
@@ -75,6 +82,8 @@ fun SwipeItem(
     swipeEnabled: Boolean = true,
     startAnchor: Float = 0f,
     endAnchor: Float = 0f,
+    startContent: (@Composable BoxScope.() -> Unit)? = null,
+    endContent: (@Composable BoxScope.() -> Unit)? = null,
     contentItemWeight: @Composable BoxScope.() -> Unit,
     onStateChange: (key: Int, itemState: DragAnchors) -> Unit = { _, _ -> }
 ) {
@@ -95,98 +104,49 @@ fun SwipeItem(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // startWeight
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(startBlockWidth)
-                    .offset {
-                        if (withItemMode) {
-                            IntOffset(
-                                x = (-state
-                                    .requireOffset() - startAnchor)
-                                    .roundToInt(),
-                                y = 0
-                            )
-                        } else {
-                            IntOffset(0, 0)
+            // startContent
+            if (startContent != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(startBlockWidth)
+                        .offset {
+                            if (withItemMode) {
+                                IntOffset(
+                                    x = (-state
+                                        .requireOffset() - startAnchor)
+                                        .roundToInt(),
+                                    y = 0
+                                )
+                            } else {
+                                IntOffset(0, 0)
+                            }
                         }
-                    }
-                    .background(Color.Gray)
-                    .delayClick {
-                        Log.d("*******", "click隨便: in")
-                    },
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_cloud_24),
-                    contentDescription = ""
-                )
-                Text(
-                    modifier = Modifier,
-                    text = "隨便"
-                )
+                ) {
+                    startContent()
+                }
             }
 
-            // endWeight
-            Row(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(endBlockWidth)
-                    .offset {
-                        if (withItemMode) {
-                            IntOffset(
-                                x = (-state
-                                    .requireOffset() + endAnchor)
-                                    .roundToInt(),
-                                y = 0
-                            )
-                        } else {
-                            IntOffset(0, 0)
+            // endContent
+            if (endContent != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(endBlockWidth)
+                        .offset {
+                            if (withItemMode) {
+                                IntOffset(
+                                    x = (-state
+                                        .requireOffset() + endAnchor)
+                                        .roundToInt(),
+                                    y = 0
+                                )
+                            } else {
+                                IntOffset(0, 0)
+                            }
                         }
-                    }
-            ) {
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .background(Color.Green)
-                        .delayClick {
-                            Log.d("*******", "click編輯: in")
-                        },
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_baseline_celebration_24),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier,
-                        text = "編輯"
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .background(Color.Yellow)
-                        .delayClick {
-                            Log.d("*******", "click刪除: in")
-                        },
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_baseline_celebration_24),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier,
-                        text = "刪除"
-                    )
+                    endContent()
                 }
             }
         }
@@ -217,13 +177,13 @@ fun SwipeItem(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SwipeExampleScreen(modifier: Modifier = Modifier) {
     val itemStates = remember { mutableStateMapOf<Int, AnchoredDraggableState<DragAnchors>>() }
     val density = LocalDensity.current
-    val startAnchor = (LocalConfiguration.current.screenWidthDp * 1f / 3f)
-    val endAnchor = (LocalConfiguration.current.screenWidthDp * 2f / 3f)
+    val screenWidthPx = with(density) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+    val startAnchor = screenWidthPx / 4f
+    val endAnchor = screenWidthPx  / 4f
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val velocityThreshold = with(density) { 100.dp.toPx() }
     val scope = rememberCoroutineScope()
@@ -245,7 +205,7 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
             .navigationBarsPadding(),
         state = lazyColumn
     ) {
-        items(50) {index ->
+        items(50) { index ->
             val state = itemStates.getOrPut(index) {
                 AnchoredDraggableState(
                     initialValue = DragAnchors.Center,
@@ -263,35 +223,109 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
                 )
             }
 
-            SwipeItem(
-                state = state,
-                key = index,
-                startAnchor = startAnchor,
-                endAnchor = endAnchor,
-                contentItemWeight = {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(90.sdp)
-                            .background(Color.Blue)
-                            .align(Alignment.Center),
-                        text = "我是item的View",
-                        textAlign = TextAlign.Center
-                    )
-                },
-                onStateChange = { key, mState ->
-                    // 如果item變換不是置中 則遍歷每項item並將狀態改為置中 (一次只允許一個item處於編輯狀態)
-                    if(mState != DragAnchors.Center) {
-                        itemStates.forEach { (itemKey, itemState) ->
-                            if(key != itemKey) {
-                                scope.launch {
-                                    itemState.animateTo(DragAnchors.Center)
+            Column {
+                SwipeItem(
+                    state = state,
+                    key = index,
+                    startAnchor = startAnchor,
+                    endAnchor = endAnchor,
+                    startContent = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Gray)
+                                .delayClick {
+                                    Log.d("*******", "click隨便: in")
+                                },
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_baseline_cloud_24),
+                                contentDescription = ""
+                            )
+                            Text(
+                                modifier = Modifier,
+                                text = "隨便"
+                            )
+                        }
+                    },
+                    endContent = {
+                        Row(modifier = Modifier.fillMaxSize()) {
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .background(Color.Green)
+                                    .delayClick {
+                                        Log.d("*******", "click編輯: in")
+                                    },
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_baseline_celebration_24),
+                                    contentDescription = ""
+                                )
+                                Text(
+                                    modifier = Modifier,
+                                    text = "編輯"
+                                )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .background(Color.Yellow)
+                                    .delayClick {
+                                        Log.d("*******", "click刪除: in")
+                                    },
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_baseline_celebration_24),
+                                    contentDescription = ""
+                                )
+                                Text(
+                                    modifier = Modifier,
+                                    text = "刪除"
+                                )
+                            }
+                        }
+                    },
+                    contentItemWeight = {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(90.mdp)
+                                .background(LocalCustomColors.current.pinkRed100)
+                                .align(Alignment.Center),
+                            text = "把你想要滑動的元件放這裡",
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    onStateChange = { key, mState ->
+                        // 如果item變換不是置中 則遍歷每項item並將狀態改為置中 (一次只允許一個item處於編輯狀態)
+                        if (mState != DragAnchors.Center) {
+                            itemStates.forEach { (itemKey, itemState) ->
+                                if (key != itemKey) {
+                                    scope.launch {
+                                        itemState.animateTo(DragAnchors.Center)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            )
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.mdp)
+                        .background(LocalCustomColors.current.dividerLineColor)
+                )
+            }
         }
     }
 }
