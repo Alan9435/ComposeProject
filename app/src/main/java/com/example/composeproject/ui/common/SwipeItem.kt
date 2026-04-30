@@ -11,7 +11,6 @@ import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.anchoredDraggable
-import androidx.compose.foundation.gestures.anchoredDraggableFlingBehavior
 import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -215,20 +214,21 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
             val state = itemStates.getOrPut(index) {
                 AnchoredDraggableState(
                     initialValue = DragAnchors.Center,
-                    anchors = DraggableAnchors {
+                    // 滑動到一半時作為臨界點 決定DragAnchors的狀態
+                    positionalThreshold = { totalDistance: Float -> totalDistance * 0.5f },
+                    // 滑動的速度為多少可以切換DragAnchors的狀態 而不需要滑動到臨界點
+                    velocityThreshold = { velocityThreshold },
+                    snapAnimationSpec = spring(),
+                    decayAnimationSpec = decayAnimationSpec,
+                ).also { newState ->
+                    // 1.7.x 新 API：anchors 從建構子移出，改由 updateAnchors 設定
+                    newState.updateAnchors(DraggableAnchors {
                         DragAnchors.Start at -startAnchor
                         DragAnchors.Center at 0f
                         DragAnchors.End at endAnchor
-                    }
-                )
+                    })
+                }
             }
-            // 飛行行為：手指放開後的位移衰減與 snap 動畫，與狀態分離以符合新 API 設計
-            val flingBehavior = state.anchoredDraggableFlingBehavior(
-                positionalThreshold = { totalDistance -> totalDistance * 0.5f },
-                velocityThreshold = { velocityThreshold },
-                snapAnimationSpec = spring(),
-                decayAnimationSpec = decayAnimationSpec
-            )
 
             Column {
                 SwipeItem(
@@ -236,7 +236,6 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
                     key = index,
                     startAnchor = startAnchor,
                     endAnchor = endAnchor,
-                    flingBehavior = flingBehavior,
                     startContent = {
                         Column(
                             modifier = Modifier
