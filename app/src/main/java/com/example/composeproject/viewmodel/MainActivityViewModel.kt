@@ -122,7 +122,7 @@ class MainActivityViewModel : ViewModel() {
             listData.addAll((0..50).map { MyTestData("$it", "$it") })
             isListLoading = false
 
-            // 等下一個 frame，讓 item 先以 visible=false 組合完畢，再觸發入場動畫
+            // 製造一個切割點 強迫 Compose 在兩次狀態變更之間先做一次重組
             delay(1)
             loadingFinish = true
         }
@@ -139,7 +139,7 @@ class MainActivityViewModel : ViewModel() {
             listData.addAll((0..50).map { MyTestData("$it", "$it") })
             isListReLoading = false
 
-            // 等下一個 frame，讓 item 先以 visible=false 組合完畢，再觸發入場動畫
+            // 製造一個切割點 強迫 Compose 在兩次狀態變更之間先做一次重組
             delay(1)
             loadingFinish = true
         }
@@ -171,13 +171,14 @@ class MainActivityViewModel : ViewModel() {
     private fun getListData() {
         setListData(listOf(
             ScreenFlag.LazyGridExampleScreen,
-//            ScreenFlag.AnimationLazyColumnItemExampleScreen, //todo 施工中 第一次沒有觸發動畫效果 以及如果api rs比animation設定的秒數還快回來?
+            ScreenFlag.AnimationLazyColumnItemExampleScreen,
             ScreenFlag.ContextualFlowRowExampleScreen,
             ScreenFlag.MultipleAnimationExampleScreen,
             ScreenFlag.BottomSheetExampleScreen,
             ScreenFlag.ModalBottomSheetExampleScreen,
             ScreenFlag.HorizontalPagerExampleScreen,
-            ScreenFlag.LineChartExampleScreen
+            ScreenFlag.LineChartExampleScreen,
+            ScreenFlag.SwipeItemScreen
         ))
     }
 }

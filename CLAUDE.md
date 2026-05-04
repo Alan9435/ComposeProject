@@ -6,6 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Always respond in Traditional Chinese (繁體中文).
 
+## Git 操作規則
+
+**絕對不可**在未經用戶明確要求的情況下執行任何 `git commit` 或 `git push` 操作。
+- 只有用戶明確說「幫我 commit」、「commit 這些變更」等指令時，才可執行 commit
+- 只有用戶明確說「push」時，才可執行 push
+- 完成程式碼修改後，直接報告變更內容即可，不要自動提交
+
 ## Build & Test Commands
 
 ```bash

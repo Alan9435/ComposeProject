@@ -49,6 +49,7 @@ import com.example.composeproject.example.LineChartExampleScreen
 import com.example.composeproject.example.ModalBottomSheetExampleScreen
 import com.example.composeproject.example.MultipleAnimationExampleScreen
 import com.example.composeproject.ui.common.LoadingMask
+import com.example.composeproject.ui.common.SwipeExampleScreen
 import com.example.composeproject.ui.modifier.delayClick
 import com.example.composeproject.ui.screens.TopBar
 import com.example.composeproject.ui.theme.CustomTheme
@@ -171,6 +172,12 @@ class MainActivity : ComponentActivity() {
 
                             is ScreenFlag.LineChartExampleScreen -> {
                                 LineChartExampleScreen(
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+
+                            is ScreenFlag.SwipeItemScreen -> {
+                                SwipeExampleScreen(
                                     modifier = Modifier.fillMaxSize()
                                 )
                             }

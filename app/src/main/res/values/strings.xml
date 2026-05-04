@@ -12,6 +12,7 @@
     <string name="home_screen_list_modal_bottom_sheet_title">Modal BottomSheet測試</string>
     <string name="home_screen_list_horizontal_pager_scale_title">HorizontalPager</string>
     <string name="home_screen_list_line_chart">折線圖表格</string>
+    <string name="home_screen_list_swipe_actions_item">SwipeActions</string>
 
     <string name="horizontal_pager_scale_item_add_alert">測試項目1</string>
     <string name="horizontal_pager_scale_item_airline_seat_flat">測試項目2</string>

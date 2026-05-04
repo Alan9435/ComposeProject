@@ -13,4 +13,5 @@ sealed class ScreenFlag(@StringRes val titleRes: Int) {
     data object ModalBottomSheetExampleScreen: ScreenFlag(R.string.home_screen_list_modal_bottom_sheet_title)
     data object HorizontalPagerExampleScreen: ScreenFlag(R.string.home_screen_list_horizontal_pager_scale_title)
     data object LineChartExampleScreen: ScreenFlag(R.string.home_screen_list_line_chart)
+    data object SwipeItemScreen: ScreenFlag(R.string.home_screen_list_swipe_actions_item)
 }

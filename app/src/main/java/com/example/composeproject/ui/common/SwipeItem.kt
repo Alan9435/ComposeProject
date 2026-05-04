@@ -2,7 +2,6 @@ package com.example.composeproject.ui.common
 
 import android.util.Log
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -189,8 +188,6 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
     val screenWidthPx = with(density) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
     val startAnchor = screenWidthPx / 4f
     val endAnchor = screenWidthPx  / 4f
-    val decayAnimationSpec = rememberSplineBasedDecay<Float>()
-    val velocityThreshold = with(density) { 100.dp.toPx() }
     val scope = rememberCoroutineScope()
     val lazyColumn = rememberLazyListState()
 
@@ -214,20 +211,12 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
             val state = itemStates.getOrPut(index) {
                 AnchoredDraggableState(
                     initialValue = DragAnchors.Center,
-                    // 滑動到一半時作為臨界點 決定DragAnchors的狀態
-                    positionalThreshold = { totalDistance: Float -> totalDistance * 0.5f },
-                    // 滑動的速度為多少可以切換DragAnchors的狀態 而不需要滑動到臨界點
-                    velocityThreshold = { velocityThreshold },
-                    snapAnimationSpec = spring(),
-                    decayAnimationSpec = decayAnimationSpec,
-                ).also { newState ->
-                    // 1.7.x 新 API：anchors 從建構子移出，改由 updateAnchors 設定
-                    newState.updateAnchors(DraggableAnchors {
+                    anchors = DraggableAnchors {
                         DragAnchors.Start at -startAnchor
                         DragAnchors.Center at 0f
                         DragAnchors.End at endAnchor
-                    })
-                }
+                    }
+                )
             }
 
             Column {
