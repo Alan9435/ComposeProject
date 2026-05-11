@@ -242,7 +242,7 @@ fun SwipeExampleScreen(modifier: Modifier = Modifier) {
                             )
                             Text(
                                 modifier = Modifier,
-                                text = "隨便"
+                                text = "隨便執行一些動作"
                             )
                         }
                     },

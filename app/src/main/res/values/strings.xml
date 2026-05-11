@@ -7,12 +7,14 @@
     <string name="home_screen_list_grid_title">Grid列表</string>
     <string name="home_screen_list_animation_lazy_column_title">帶有入場動畫效果的列表</string>
     <string name="home_screen_list_label_row_title">標籤類顯示</string>
-    <string name="home_screen_list_multiple_animation_title">適合連點類的動畫效果</string>
+    <string name="home_screen_list_multiple_animation_title">小小的動畫效果</string>
     <string name="home_screen_list_persistent_bottom_sheet_title">Persistent BottomSheet測試</string>
     <string name="home_screen_list_modal_bottom_sheet_title">Modal BottomSheet測試</string>
     <string name="home_screen_list_horizontal_pager_scale_title">HorizontalPager</string>
     <string name="home_screen_list_line_chart">折線圖表格</string>
     <string name="home_screen_list_swipe_actions_item">SwipeActions</string>
+    <string name="home_screen_list_overlay_badge">OverlayBadge 標籤範例</string>
+    <string name="home_screen_list_nested_scrolling">Nested Scrolling 範例</string>
 
     <string name="horizontal_pager_scale_item_add_alert">測試項目1</string>
     <string name="horizontal_pager_scale_item_airline_seat_flat">測試項目2</string>

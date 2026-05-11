@@ -14,4 +14,6 @@ sealed class ScreenFlag(@StringRes val titleRes: Int) {
     data object HorizontalPagerExampleScreen: ScreenFlag(R.string.home_screen_list_horizontal_pager_scale_title)
     data object LineChartExampleScreen: ScreenFlag(R.string.home_screen_list_line_chart)
     data object SwipeItemScreen: ScreenFlag(R.string.home_screen_list_swipe_actions_item)
+    data object OverlayBadgeExampleScreen: ScreenFlag(R.string.home_screen_list_overlay_badge)
+    data object NestedScrollingExampleScreen: ScreenFlag(R.string.home_screen_list_nested_scrolling)
 }

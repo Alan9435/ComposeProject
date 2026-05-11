@@ -48,6 +48,8 @@ import com.example.composeproject.example.HorizontalPagerScaleExampleScreen
 import com.example.composeproject.example.LineChartExampleScreen
 import com.example.composeproject.example.ModalBottomSheetExampleScreen
 import com.example.composeproject.example.MultipleAnimationExampleScreen
+import com.example.composeproject.example.NestedScrollingExampleScreen
+import com.example.composeproject.example.OverlayBadgeExampleScreen
 import com.example.composeproject.ui.common.LoadingMask
 import com.example.composeproject.ui.common.SwipeExampleScreen
 import com.example.composeproject.ui.modifier.delayClick
@@ -179,6 +181,18 @@ class MainActivity : ComponentActivity() {
                             is ScreenFlag.SwipeItemScreen -> {
                                 SwipeExampleScreen(
                                     modifier = Modifier.fillMaxSize()
+                                )
+                            }
+
+                            is ScreenFlag.OverlayBadgeExampleScreen -> {
+                                OverlayBadgeExampleScreen(
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+
+                            is ScreenFlag.NestedScrollingExampleScreen -> {
+                                NestedScrollingExampleScreen(
+                                    modifier = Modifier.fillMaxSize().navigationBarsPadding()
                                 )
                             }
                         }

@@ -234,7 +234,7 @@ fun ModalBottomSheetExampleScreen(
                                 }
                             }
                         },
-                        text = "測試顯示$index"
+                        text = "測試顯示$index || 點我關閉"
                     )
                 }
 

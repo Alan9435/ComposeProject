@@ -58,10 +58,11 @@ fun AnimationLazyColumnItemExampleScreen(
             2者相加 = 最底 開始loadmore
          */
 
-        Button(onClick = {
+        Button(
+            onClick = {
             viewModel.fetchData()
         }) {
-
+            Text("點我看效果")
         }
 
         /*

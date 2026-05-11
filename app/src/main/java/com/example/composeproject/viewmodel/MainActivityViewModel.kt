@@ -178,7 +178,9 @@ class MainActivityViewModel : ViewModel() {
             ScreenFlag.ModalBottomSheetExampleScreen,
             ScreenFlag.HorizontalPagerExampleScreen,
             ScreenFlag.LineChartExampleScreen,
-            ScreenFlag.SwipeItemScreen
+            ScreenFlag.SwipeItemScreen,
+            ScreenFlag.OverlayBadgeExampleScreen,
+            ScreenFlag.NestedScrollingExampleScreen
         ))
     }
 }

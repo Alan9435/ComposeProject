@@ -84,8 +84,8 @@ fun LineChartExampleScreen(
                 .fillMaxWidth()
                 .height(300.mdp),
             screenStatus = screenStatus,
-            leftColumTextList = screenStatus?.chartViewList ?: listOf(),
-            rightColumTextList = screenStatus?.chartApplyOrTalkList ?: listOf(),
+            leftColumTextList = screenStatus.chartViewList,
+            rightColumTextList = screenStatus.chartApplyOrTalkList,
             pageStatus = pageStatus
         )
     }

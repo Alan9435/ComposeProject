@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import com.example.composeproject.utils.mdp
 import ir.kaaveh.sdpcompose.sdp
 import kotlinx.coroutines.delay
 
@@ -57,14 +58,14 @@ fun AnimationCheck(modifier: Modifier = Modifier, starAnimation: Boolean, size: 
 
     with(density) {
         // 定義第1,2筆畫的起點與終點  * 0.8f 是因為用sdp套件
-        val step1XStartLocation = ((size / 4) * 0.8f).toPx()
-        val step1XEndLocation = ((size / 2.1f) * 0.8f).toPx()
-        val step1YStartLocation = ((size / 1.5f) * 0.8f).toPx()
-        val step1YEndLocation = ((size / 1.1f) * 0.8f).toPx()
-        val step2XStartLocation = ((size / 2.1f) * 0.8f).toPx()
-        val step2XEndLocation = (size * 0.8f).toPx()
-        val step2YStartLocation = ((size / 1.1f) * 0.8f).toPx()
-        val step2YEndLocation = ((size / 2.7f) * 0.8f).toPx()
+        val step1XStartLocation = (size / 4).toPx()
+        val step1XEndLocation = (size / 2.1f).toPx()
+        val step1YStartLocation = (size / 1.5f).toPx()
+        val step1YEndLocation = (size / 1.1f).toPx()
+        val step2XStartLocation = (size / 2.1f).toPx()
+        val step2XEndLocation = size.toPx()
+        val step2YStartLocation = (size / 1.1f).toPx()
+        val step2YEndLocation = (size / 2.7f).toPx()
         val checkWidth = lineWidth.toPx()
 
         val step1X = updateTransition(targetState = step1, label = "step1X")
@@ -177,10 +178,10 @@ private fun AnimationCheckPrev() {
     }
 
     AnimationCheck(
-        modifier = Modifier.size(190.sdp),
-        size = 190.sdp,
+        modifier = Modifier.size(190.mdp),
+        size = 190.mdp,
         color = Color.Red,
         starAnimation = startCheck,
-        lineWidth = 5.sdp
+        lineWidth = 5.mdp
     )
 }
